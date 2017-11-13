@@ -5,7 +5,10 @@ public class FireFlyScript : MonoBehaviour {
 
     SpriteRenderer sourceRenderer;
     SpriteRenderer thisRenderer;
-    public float closeness = 0.05f;
+    public float closeness;
+
+    public float timeToLive;
+
 	// Use this for initialization
 	void Start () {
         thisRenderer = gameObject.GetComponent<SpriteRenderer>();
@@ -15,6 +18,12 @@ public class FireFlyScript : MonoBehaviour {
 
 // Update is called once per frame
     void Update() {
+        if (timeToLive <= 0)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Behaviour halo = (Behaviour)GetComponent("Halo");
         if (closeEnough(thisRenderer.color, sourceRenderer.color, closeness))
         {
@@ -34,15 +43,13 @@ public class FireFlyScript : MonoBehaviour {
             && Mathf.Abs(c1.b - c2.b) < nearness;
     }
 
-    void OnMouseDown()
+    void OnMouseOver()
     {
         Behaviour halo = (Behaviour)GetComponent("Halo");
         
-        if (halo.enabled)
+        if (halo.enabled && Input.GetMouseButton(0))
         {
-            thisRenderer.color = ColorScript.generateNewColor();
-            halo.enabled = false;
-            Destroy(gameObject);
+            timeToLive -= Time.deltaTime;
         }
     }
 

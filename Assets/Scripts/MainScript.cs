@@ -6,6 +6,8 @@ public class MainScript : MonoBehaviour
 {
     public GameObject lightGenerator;
     public GameObject sin;
+    public GameObject flashLightHaloPrefab;
+    
     public bool isChangingColor = false;
 
     float previousPosition = 0.0f;
@@ -14,7 +16,8 @@ public class MainScript : MonoBehaviour
     int numberAveraged = 7;
 
     Queue<float> periods = new Queue<float>();
-    
+
+    private GameObject flashLightHalo;
     // Use this for initialization
     void Start()
     {
@@ -42,7 +45,21 @@ public class MainScript : MonoBehaviour
                 periods.Dequeue();
             }
         }
-        
+        else if (Input.GetMouseButton(0))
+        {
+            if (flashLightHalo == null)
+            {
+                flashLightHalo = Instantiate(flashLightHaloPrefab);
+                flashLightHalo.GetComponent<Light>().color = lightGenerator.GetComponent<SpriteRenderer>().color;
+            }
+
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            flashLightHalo.transform.position = new Vector3(mousePos.x, mousePos.y);
+        } else if (flashLightHalo != null)
+        {
+            Destroy(flashLightHalo);
+            flashLightHalo = null;
+        }
     }
 
     private void UpdateDirection(float currentPosition)

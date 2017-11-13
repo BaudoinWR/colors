@@ -222,6 +222,7 @@
     <Compile Include="Assets\Scripts\ColorScript.cs" />
     <Compile Include="Assets\Scripts\FireFlyGeneratorScript.cs" />
     <Compile Include="Assets\Scripts\FireFlyScript.cs" />
+    <Compile Include="Assets\Scripts\FlashLightHaloScript.cs" />
     <Compile Include="Assets\Scripts\HoverScript.cs" />
     <Compile Include="Assets\Scripts\MainScript.cs" />
     <Compile Include="Assets\Scripts\SinWaveScript.cs" />
