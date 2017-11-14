@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class MainScript : MonoBehaviour
 {
+    public static int score = 0;
+    float time = 60;
+    public Text textScore;
+    public Text textTime;
     public GameObject lightGenerator;
     public GameObject sin;
     public GameObject flashLightHaloPrefab;
@@ -26,7 +30,36 @@ public class MainScript : MonoBehaviour
 
     // Update is called once per frame
     void FixedUpdate()
-    { 
+    {
+        UpdateColor();
+        ShowFlashLight();
+        textScore.text = "Score : " + score;
+        time -= Time.deltaTime;
+        textTime.text = "" + time;
+    }
+
+    private void ShowFlashLight()
+    {
+        if (Input.GetMouseButton(0) && !isChangingColor)
+        {
+            if (flashLightHalo == null)
+            {
+                flashLightHalo = Instantiate(flashLightHaloPrefab);
+                flashLightHalo.GetComponent<Light>().color = lightGenerator.GetComponent<SpriteRenderer>().color;
+            }
+
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            flashLightHalo.transform.position = new Vector3(mousePos.x, mousePos.y);
+        }
+        else if (flashLightHalo != null)
+        {
+            Destroy(flashLightHalo);
+            flashLightHalo = null;
+        }
+    }
+
+    private void UpdateColor()
+    {
         if (Input.GetMouseButton(0) && isChangingColor)
         {
             float currentPosition = Input.mousePosition.y;
@@ -44,21 +77,6 @@ public class MainScript : MonoBehaviour
             {
                 periods.Dequeue();
             }
-        }
-        else if (Input.GetMouseButton(0))
-        {
-            if (flashLightHalo == null)
-            {
-                flashLightHalo = Instantiate(flashLightHaloPrefab);
-                flashLightHalo.GetComponent<Light>().color = lightGenerator.GetComponent<SpriteRenderer>().color;
-            }
-
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            flashLightHalo.transform.position = new Vector3(mousePos.x, mousePos.y);
-        } else if (flashLightHalo != null)
-        {
-            Destroy(flashLightHalo);
-            flashLightHalo = null;
         }
     }
 
