@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MainScript : MonoBehaviour
 {
-    public static int score = 0;
+    private static int score = 0;
     float time = 60;
     public Text textScore;
     public Text textTime;
@@ -19,7 +20,7 @@ public class MainScript : MonoBehaviour
     bool isGoingUp = true;
     int numberAveraged = 7;
 
-    Queue<float> periods = new Queue<float>();
+    static Queue<float> periods = new Queue<float>();
 
     private GameObject flashLightHalo;
     // Use this for initialization
@@ -36,6 +37,10 @@ public class MainScript : MonoBehaviour
         textScore.text = "Score : " + score;
         time -= Time.deltaTime;
         textTime.text = "" + time;
+        if (time <= 0)
+        {
+            SceneManager.LoadScene("Title");
+        }
     }
 
     private void ShowFlashLight()
@@ -118,4 +123,15 @@ public class MainScript : MonoBehaviour
         return period;
     }
 
+    public static void increaseScore()
+    {
+        score++;
+        periods = new Queue<float>();
+        periods.Enqueue(1);
+    }
+
+    public static int getScore()
+    {
+        return score;
+    }
 }

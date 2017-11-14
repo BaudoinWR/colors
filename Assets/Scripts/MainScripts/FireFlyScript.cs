@@ -20,7 +20,7 @@ public class FireFlyScript : MonoBehaviour {
     void Update() {
         if (timeToLive <= 0)
         {
-            MainScript.score++;
+            MainScript.increaseScore();
             Destroy(gameObject);
             return;
         }
