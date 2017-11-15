@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class FireFlyScript : MonoBehaviour {
 
@@ -25,16 +26,35 @@ public class FireFlyScript : MonoBehaviour {
             return;
         }
 
+        CheckTouch();
+
         Behaviour halo = (Behaviour)GetComponent("Halo");
         if (closeEnough(thisRenderer.color, sourceRenderer.color, closeness))
         {
             halo.enabled = true;
-            MainScript script = (MainScript)Object.FindObjectOfType(typeof(MainScript));
+            MainScript script = (MainScript)UnityEngine.Object.FindObjectOfType(typeof(MainScript));
             script.isChangingColor = false;
         } else {
             halo.enabled = false;
         }
         HoverScript.doHover(gameObject);
+    }
+
+    private void CheckTouch()
+    {
+        if (Input.touches.Length > 0)
+        {
+            Touch touch = Input.touches[0];
+            Ray touchRay = Camera.main.ScreenPointToRay(touch.position);
+            RaycastHit[] hits = Physics.RaycastAll(touchRay);
+            foreach (RaycastHit hit in hits)
+            {
+                if (hit.transform.gameObject == gameObject)
+                {
+                    overed();
+                }
+            }
+        }
     }
 
     private bool closeEnough(Color c1, Color c2, float nearness)
@@ -46,12 +66,19 @@ public class FireFlyScript : MonoBehaviour {
 
     void OnMouseOver()
     {
+        if (Input.GetMouseButton(0))
+        {
+            overed();
+        }
+    }
+
+    private void overed()
+    {
         Behaviour halo = (Behaviour)GetComponent("Halo");
-        
-        if (halo.enabled && Input.GetMouseButton(0))
+
+        if (halo.enabled)
         {
             timeToLive -= Time.deltaTime;
         }
     }
-
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class MainScript : MonoBehaviour
 {
@@ -32,8 +33,8 @@ public class MainScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        UpdateColor();
-        ShowFlashLight();
+        UpdateWithMouseInteraction();
+        UpdateWithTouchInteraction();
         textScore.text = "Score : " + score;
         time -= Time.deltaTime;
         textTime.text = "" + time;
@@ -43,9 +44,38 @@ public class MainScript : MonoBehaviour
         }
     }
 
-    private void ShowFlashLight()
+    private void UpdateWithTouchInteraction()
     {
-        if (Input.GetMouseButton(0) && !isChangingColor)
+        float x = 0;
+        float y = 0;
+        if (Input.touches.Length > 0)
+        {
+            Touch touch = Input.touches[0];
+            x = Camera.main.ScreenToWorldPoint(touch.position).x;
+            y = Camera.main.ScreenToWorldPoint(touch.position).y;
+            UpdateColor(y);
+        }
+        if (!Input.GetMouseButton(0))
+        {
+            ShowFlashLight(Input.touches.Length > 0, x, y);
+        }
+    }
+
+    private void UpdateWithMouseInteraction()
+    {
+        if (Input.GetMouseButton(0)) {
+            UpdateColor(Input.mousePosition.y);
+        }
+        if (Input.touches.Length == 0)
+        {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            ShowFlashLight(Input.GetMouseButton(0), mousePos.x, mousePos.y);
+        }
+    }
+
+    private void ShowFlashLight(bool touching, float x, float y)
+    {
+        if (touching && !isChangingColor)
         {
             if (flashLightHalo == null)
             {
@@ -53,8 +83,7 @@ public class MainScript : MonoBehaviour
                 flashLightHalo.GetComponent<Light>().color = lightGenerator.GetComponent<SpriteRenderer>().color;
             }
 
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            flashLightHalo.transform.position = new Vector3(mousePos.x, mousePos.y);
+            flashLightHalo.transform.position = new Vector3(x, y);
         }
         else if (flashLightHalo != null)
         {
@@ -63,11 +92,10 @@ public class MainScript : MonoBehaviour
         }
     }
 
-    private void UpdateColor()
+    private void UpdateColor(float currentPosition)
     {
-        if (Input.GetMouseButton(0) && isChangingColor)
+        if (isChangingColor)
         {
-            float currentPosition = Input.mousePosition.y;
             UpdateDirection(currentPosition);
             previousPosition = currentPosition;
 
