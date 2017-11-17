@@ -33,7 +33,7 @@ public class FireFlyScript : MonoBehaviour {
         {
             halo.enabled = true;
             MainScript script = (MainScript)UnityEngine.Object.FindObjectOfType(typeof(MainScript));
-            script.isChangingColor = false;
+            script.switchColorChanger(false);
         } else {
             halo.enabled = false;
         }

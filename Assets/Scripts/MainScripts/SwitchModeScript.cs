@@ -30,6 +30,6 @@ public class SwitchModeScript : MonoBehaviour
     private void SwitchChangingColor()
     {
         MainScript script = (MainScript)UnityEngine.Object.FindObjectOfType(typeof(MainScript));
-        script.isChangingColor = !script.isChangingColor;
+        script.switchColorChanger();
     }
 }

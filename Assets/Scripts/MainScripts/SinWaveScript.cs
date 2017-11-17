@@ -7,18 +7,20 @@ public class SinWaveScript : MonoBehaviour
     public Color c2 = Color.yellow;
     int lengthOfLineRenderer = 150;
     public float period = 0.5f;
+    LineRenderer lineRenderer;
 
     void Start()
     {
-        LineRenderer lineRenderer = gameObject.AddComponent<LineRenderer>();
-        lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-        lineRenderer.SetWidth(0.05F, 0.05F);
+        lineRenderer = gameObject.GetComponent<LineRenderer>();
+        //lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
+        //lineRenderer.startWidth = 0.05F;
+        //lineRenderer.endWidth = 0.05F;
     }
     void Update()
     {
-        LineRenderer lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.SetColors(c1, c2);
-        lineRenderer.SetVertexCount(lengthOfLineRenderer);
+        lineRenderer.startColor = c1;
+        lineRenderer.endColor = c2;
+        lineRenderer.positionCount = lengthOfLineRenderer;
         int i = 0;
         //Debug.Log(period);
         while (i < lengthOfLineRenderer)
@@ -26,7 +28,7 @@ public class SinWaveScript : MonoBehaviour
             float x = transform.position.x + i * period;
             if (x > -2)
             {
-                lineRenderer.SetVertexCount(i);
+                lineRenderer.positionCount = i;
                 break;
             }
             Vector3 pos = new Vector3(x, transform.position.y + Mathf.Sin(i + Time.time*2/period)*0.5f, 0);

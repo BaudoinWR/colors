@@ -10,11 +10,12 @@ public class MainScript : MonoBehaviour
     float time = 60;
     public Text textScore;
     public Text textTime;
+    public Text textDebug;
     public GameObject lightGenerator;
     public GameObject sin;
     public GameObject flashLightHaloPrefab;
     
-    public bool isChangingColor = false;
+    private bool isChangingColor = false;
 
     float previousPosition = 0.0f;
     float previousPeak = 0.0f;
@@ -27,14 +28,21 @@ public class MainScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        score = 0;
         periods.Enqueue(1);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        UpdateWithMouseInteraction();
-        UpdateWithTouchInteraction();
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            UpdateWithTouchInteraction();
+        }
+        else
+        {
+            UpdateWithMouseInteraction();
+        }
         textScore.text = "Score : " + score;
         time -= Time.deltaTime;
         textTime.text = "" + time;
@@ -53,12 +61,9 @@ public class MainScript : MonoBehaviour
             Touch touch = Input.touches[0];
             x = Camera.main.ScreenToWorldPoint(touch.position).x;
             y = Camera.main.ScreenToWorldPoint(touch.position).y;
-            UpdateColor(y);
+            UpdateColor(touch.position.y);
         }
-        if (!Input.GetMouseButton(0))
-        {
-            ShowFlashLight(Input.touches.Length > 0, x, y);
-        }
+        ShowFlashLight(Input.touches.Length > 0, x, y);
     }
 
     private void UpdateWithMouseInteraction()
@@ -66,15 +71,14 @@ public class MainScript : MonoBehaviour
         if (Input.GetMouseButton(0)) {
             UpdateColor(Input.mousePosition.y);
         }
-        if (Input.touches.Length == 0)
-        {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            ShowFlashLight(Input.GetMouseButton(0), mousePos.x, mousePos.y);
-        }
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        ShowFlashLight(Input.GetMouseButton(0), mousePos.x, mousePos.y);
     }
 
     private void ShowFlashLight(bool touching, float x, float y)
     {
+        textDebug.text += "\nflashlight x : " + x;
+        textDebug.text += "\nflashlight y : " + y;
         if (touching && !isChangingColor)
         {
             if (flashLightHalo == null)
@@ -94,17 +98,26 @@ public class MainScript : MonoBehaviour
 
     private void UpdateColor(float currentPosition)
     {
+        textDebug.text = "Mouse : " + Input.GetMouseButton(0);
+        textDebug.text += "\ncurrentPosition : " + currentPosition;
+        textDebug.text += "\npreviousPosition : " + previousPosition;
+        textDebug.text += "\nchangingColor : " + isChangingColor;
+
         if (isChangingColor)
         {
             UpdateDirection(currentPosition);
+            textDebug.text += "\ngoingUp : " + isGoingUp;
+
             previousPosition = currentPosition;
 
             float period = getAverage(periods.ToArray());
+            textDebug.text += "\nperiod : " + period;
 
             Color col = ColorScript.GetColor(period);
             lightGenerator.GetComponent<SpriteRenderer>().color = col;
             sin.GetComponent<SinWaveScript>().period = period;
             sin.GetComponent<SinWaveScript>().c2 = col;
+            textDebug.text += "\ncolor : " + col;
 
             while (periods.ToArray().Length > numberAveraged)
             {
@@ -161,5 +174,14 @@ public class MainScript : MonoBehaviour
     public static int getScore()
     {
         return score;
+    }
+
+    public void switchColorChanger()
+    {
+        this.isChangingColor = !this.isChangingColor;
+    }
+    public void switchColorChanger(Boolean force)
+    {
+        this.isChangingColor = force;
     }
 }
