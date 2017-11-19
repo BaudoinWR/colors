@@ -6,6 +6,7 @@ public class FireFlyScript : MonoBehaviour {
 
     SpriteRenderer sourceRenderer;
     SpriteRenderer thisRenderer;
+    Color fireFlyColor;
     public float closeness;
 
     public float timeToLive;
@@ -13,7 +14,8 @@ public class FireFlyScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         thisRenderer = gameObject.GetComponent<SpriteRenderer>();
-        thisRenderer.color = ColorScript.generateNewColor();
+        fireFlyColor = ColorScript.generateNewColor();
+        thisRenderer.material.SetColor("_DesiredColor", fireFlyColor);
         sourceRenderer = GameObject.Find("FlashLight").GetComponent<SpriteRenderer>();
     }       
 
@@ -29,7 +31,7 @@ public class FireFlyScript : MonoBehaviour {
         CheckTouch();
 
         Behaviour halo = (Behaviour)GetComponent("Halo");
-        if (closeEnough(thisRenderer.color, sourceRenderer.color, closeness))
+        if (closeEnough(fireFlyColor, sourceRenderer.color, closeness))
         {
             halo.enabled = true;
             MainScript script = (MainScript)UnityEngine.Object.FindObjectOfType(typeof(MainScript));

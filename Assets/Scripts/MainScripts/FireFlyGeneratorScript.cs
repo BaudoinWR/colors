@@ -31,6 +31,9 @@ public class FireFlyGeneratorScript : MonoBehaviour {
         {
             GameObject light = Instantiate(lightShower);
             light.transform.position = new Vector3(UnityEngine.Random.Range(-5, 5), UnityEngine.Random.Range(-2, 4.5f), 0);
+            int direction = UnityEngine.Random.value > 0.5f ? 1 : -1;
+            light.transform.localScale = new Vector3(direction, 1, 1);
+            light.GetComponent<SpriteRenderer>().transform.localScale = new Vector3(direction, 1, 1);
             lastSpawn = Time.time;
         }
     }
