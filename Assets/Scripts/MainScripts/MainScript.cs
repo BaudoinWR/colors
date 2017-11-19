@@ -48,7 +48,7 @@ public class MainScript : MonoBehaviour
         textTime.text = "" + time;
         if (time <= 0)
         {
-            SceneManager.LoadScene("Title");
+            PlayScript.endGame(score);
         }
     }
 
@@ -102,6 +102,7 @@ public class MainScript : MonoBehaviour
         textDebug.text += "\ncurrentPosition : " + currentPosition;
         textDebug.text += "\npreviousPosition : " + previousPosition;
         textDebug.text += "\nchangingColor : " + isChangingColor;
+        textDebug.text += "\nsaveFile : " + FileManagerScript.pathForDocumentsFile("colorSave");
 
         if (isChangingColor)
         {
