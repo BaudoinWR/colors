@@ -7,9 +7,8 @@ using System;
 public class MainScript : MonoBehaviour
 {
     private static int score = 0;
-    float time = 60;
+    public Slider time;
     public Text textScore;
-    public Text textTime;
     public Text textDebug;
     public GameObject lightGenerator;
     public GameObject sin;
@@ -44,12 +43,17 @@ public class MainScript : MonoBehaviour
             UpdateWithMouseInteraction();
         }
         textScore.text = "Score : " + score;
-        time -= Time.deltaTime;
-        textTime.text = "" + time;
-        if (time <= 0)
+        time.value -= Time.deltaTime;
+
+        if (time.value <= 0)
         {
             PlayScript.endGame(score);
         }
+    }
+
+    internal void restoreTime(float timeValue)
+    {
+        time.value += timeValue;
     }
 
     private void UpdateWithTouchInteraction()

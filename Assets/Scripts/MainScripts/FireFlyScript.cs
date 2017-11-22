@@ -10,7 +10,7 @@ public class FireFlyScript : MonoBehaviour {
     public float closeness;
 
     public float timeToLive;
-
+    private float timeValue = 4;
 	// Use this for initialization
 	void Start () {
         thisRenderer = gameObject.GetComponent<SpriteRenderer>();
@@ -24,6 +24,8 @@ public class FireFlyScript : MonoBehaviour {
         if (timeToLive <= 0)
         {
             MainScript.increaseScore();
+            MainScript script = (MainScript)UnityEngine.Object.FindObjectOfType(typeof(MainScript));
+            script.restoreTime(timeValue);
             Destroy(gameObject);
             return;
         }
