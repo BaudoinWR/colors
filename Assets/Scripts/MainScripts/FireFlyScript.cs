@@ -7,6 +7,7 @@ public class FireFlyScript : MonoBehaviour {
     SpriteRenderer sourceRenderer;
     SpriteRenderer thisRenderer;
     Color fireFlyColor;
+    Behaviour halo;
     public float closeness;
 
     public float timeToLive;
@@ -15,33 +16,52 @@ public class FireFlyScript : MonoBehaviour {
 	void Start () {
         thisRenderer = gameObject.GetComponent<SpriteRenderer>();
         fireFlyColor = ColorScript.generateNewColor();
+        halo = (Behaviour)GetComponent("Halo");
         thisRenderer.material.SetColor("_DesiredColor", fireFlyColor);
         sourceRenderer = GameObject.Find("FlashLight").GetComponent<SpriteRenderer>();
     }       
 
 // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         if (timeToLive <= 0)
         {
-            MainScript.increaseScore();
-            MainScript script = (MainScript)UnityEngine.Object.FindObjectOfType(typeof(MainScript));
-            script.restoreTime(timeValue);
-            Destroy(gameObject);
+            doEndOfLife();
             return;
         }
-
         CheckTouch();
+        UpdateHalo();
+        HoverScript.doHover(gameObject);
+    }
 
-        Behaviour halo = (Behaviour)GetComponent("Halo");
+    private void UpdateHalo()
+    {
+        
         if (closeEnough(fireFlyColor, sourceRenderer.color, closeness))
         {
             halo.enabled = true;
             MainScript script = (MainScript)UnityEngine.Object.FindObjectOfType(typeof(MainScript));
             script.switchColorChanger(false);
-        } else {
+        }
+        else
+        {
             halo.enabled = false;
         }
-        HoverScript.doHover(gameObject);
+    }
+
+    private void doEndOfLife()
+    {
+        if (gameObject.transform.position == sourceRenderer.transform.position)
+        {
+            MainScript.increaseScore();
+            MainScript script = (MainScript)UnityEngine.Object.FindObjectOfType(typeof(MainScript));
+            script.restoreTime(timeValue);
+            Destroy(gameObject);
+        }
+        else
+        {
+            GoToFlashLight();
+        }
     }
 
     private void CheckTouch()
@@ -84,5 +104,12 @@ public class FireFlyScript : MonoBehaviour {
         {
             timeToLive -= Time.deltaTime;
         }
+    }
+
+    private void GoToFlashLight()
+    {
+        Transform thisTransform = gameObject.transform;
+        thisTransform.position = Vector3.MoveTowards(thisTransform.position, sourceRenderer.transform.position, 0.15f);
+        thisTransform.localScale = Vector3.Scale(thisTransform.localScale, new Vector3(0.95f, 0.95f, 1));
     }
 }
