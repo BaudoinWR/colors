@@ -19,6 +19,8 @@ public class FireFlyScript : MonoBehaviour {
         halo = (Behaviour)GetComponent("Halo");
         thisRenderer.material.SetColor("_DesiredColor", fireFlyColor);
         sourceRenderer = GameObject.Find("FlashLight").GetComponent<SpriteRenderer>();
+        halo.GetComponent<SpriteRenderer>().sortingLayerID = thisRenderer.sortingLayerID;
+        halo.GetComponent<SpriteRenderer>().sortingOrder = thisRenderer.sortingOrder;
     }       
 
 // Update is called once per frame
@@ -109,7 +111,7 @@ public class FireFlyScript : MonoBehaviour {
     private void GoToFlashLight()
     {
         Transform thisTransform = gameObject.transform;
-        thisTransform.position = Vector3.MoveTowards(thisTransform.position, sourceRenderer.transform.position, 0.15f);
-        thisTransform.localScale = Vector3.Scale(thisTransform.localScale, new Vector3(0.95f, 0.95f, 1));
+        thisTransform.position = Vector3.MoveTowards(thisTransform.position, sourceRenderer.transform.position, 0.25f);
+        thisTransform.localScale = Vector3.Scale(thisTransform.localScale, new Vector3(0.97f, 0.97f, 1));
     }
 }
