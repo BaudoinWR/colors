@@ -15,7 +15,7 @@ public class FireFlyGeneratorScript : MonoBehaviour {
     void Start () {
         height = Camera.main.orthographicSize * 0.9f;
         width = height * Camera.main.aspect;
-        spawn();
+        Spawn();
     }
 
     // Update is called once per frame
@@ -23,28 +23,28 @@ public class FireFlyGeneratorScript : MonoBehaviour {
         FireFlyScript[] lights = (FireFlyScript[]) Resources.FindObjectsOfTypeAll(typeof(FireFlyScript));
         if (lights.Length < maxLights)
         {
-            attemptSpawn();
+            AttemptSpawn();
         }
 	}
 
-    private void attemptSpawn()
+    private void AttemptSpawn()
     {
         float gen = UnityEngine.Random.Range(Time.time - lastSpawn, spawnRate);
 
         if (spawnRate - gen < 1)
         {
-            spawn();
+            Spawn();
         }
     }
 
-    private void spawn()
+    private void Spawn()
     {
         GameObject light = Instantiate(lightShower);
         light.transform.position = new Vector3(UnityEngine.Random.Range(-width * 0.8f, width), UnityEngine.Random.Range(-height * 0.6f, height), 0);
         //light.transform.position = new Vector3(-width * 0.8f, -height * 0.6f, 0); //as Min
         //light.transform.position = new Vector3(width, height, 0); //as Max
-        int direction = UnityEngine.Random.value > 0.5f ? 1 : -1;
-        light.transform.localScale = new Vector3(light.transform.localScale.x * direction, light.transform.localScale.y, light.transform.localScale.z);
+        light.GetComponent<FireFlyScript>().direction = UnityEngine.Random.value > 0.5f ? 1 : -1;
+        light.transform.localScale = new Vector3(0.0001f, 0.0001f, light.transform.localScale.z);
         lastSpawn = Time.time;
     }
 }

@@ -12,6 +12,8 @@ public class FireFlyScript : MonoBehaviour {
 
     public float timeToLive;
     private float timeValue = 4;
+    public int direction;
+
 	// Use this for initialization
 	void Start () {
         thisRenderer = gameObject.GetComponent<SpriteRenderer>();
@@ -26,9 +28,13 @@ public class FireFlyScript : MonoBehaviour {
 // Update is called once per frame
     void Update()
     {
+        if (transform.localScale.x < 0.8)
+        {
+            transform.localScale = Vector3.MoveTowards(transform.localScale, new Vector3(0.08f * direction, 0.08f, 1), 0.0005f);
+        }
         if (timeToLive <= 0)
         {
-            doEndOfLife();
+            DoEndOfLife();
             return;
         }
         CheckTouch();
@@ -43,7 +49,7 @@ public class FireFlyScript : MonoBehaviour {
         {
             halo.enabled = true;
             MainScript script = (MainScript)UnityEngine.Object.FindObjectOfType(typeof(MainScript));
-            script.switchColorChanger(false);
+            script.SwitchColorChanger(false);
         }
         else
         {
@@ -51,13 +57,13 @@ public class FireFlyScript : MonoBehaviour {
         }
     }
 
-    private void doEndOfLife()
+    private void DoEndOfLife()
     {
         if (gameObject.transform.position == sourceRenderer.transform.position)
         {
-            MainScript.increaseScore();
+            MainScript.IncreaseScore();
             MainScript script = (MainScript)UnityEngine.Object.FindObjectOfType(typeof(MainScript));
-            script.restoreTime(timeValue);
+            script.RestoreTime(timeValue);
             Destroy(gameObject);
         }
         else
@@ -77,7 +83,7 @@ public class FireFlyScript : MonoBehaviour {
             {
                 if (hit.transform.gameObject == gameObject)
                 {
-                    overed();
+                    Overed();
                 }
             }
         }
@@ -94,11 +100,11 @@ public class FireFlyScript : MonoBehaviour {
     {
         if (Input.GetMouseButton(0))
         {
-            overed();
+            Overed();
         }
     }
 
-    private void overed()
+    private void Overed()
     {
         Behaviour halo = (Behaviour)GetComponent("Halo");
 
@@ -111,7 +117,7 @@ public class FireFlyScript : MonoBehaviour {
     private void GoToFlashLight()
     {
         Transform thisTransform = gameObject.transform;
-        thisTransform.position = Vector3.MoveTowards(thisTransform.position, sourceRenderer.transform.position, 0.25f);
+        thisTransform.position = Vector3.MoveTowards(thisTransform.position, sourceRenderer.transform.position, 0.5f);
         thisTransform.localScale = Vector3.Scale(thisTransform.localScale, new Vector3(0.97f, 0.97f, 1));
     }
 }

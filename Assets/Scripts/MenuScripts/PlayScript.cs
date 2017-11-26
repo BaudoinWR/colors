@@ -18,7 +18,7 @@ public class PlayScript : MonoBehaviour {
             highScore = Int32.Parse(topScore);
         }
         textScore.text = "HighScore : " + highScore;
-        textScore.text += "\nScore : " + MainScript.getScore();
+        textScore.text += "\nScore : " + MainScript.GetScore();
     }
 
     public void OnClickPlay()
@@ -31,7 +31,7 @@ public class PlayScript : MonoBehaviour {
         Application.Quit();
     }
 
-    internal static void endGame(int score)
+    internal static void EndGame(int score)
     {
         String topScore = FileManagerScript.readStringFromFile(saveFile);
         int highScore = 0;

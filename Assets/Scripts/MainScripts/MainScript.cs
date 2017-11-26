@@ -47,11 +47,11 @@ public class MainScript : MonoBehaviour
 
         if (time.value <= 0)
         {
-            PlayScript.endGame(score);
+            PlayScript.EndGame(score);
         }
     }
 
-    internal void restoreTime(float timeValue)
+    internal void RestoreTime(float timeValue)
     {
         time.value += timeValue;
     }
@@ -115,7 +115,7 @@ public class MainScript : MonoBehaviour
 
             previousPosition = currentPosition;
 
-            float period = getAverage(periods.ToArray());
+            float period = GetAverage(periods.ToArray());
             textDebug.text += "\nperiod : " + period;
 
             Color col = ColorScript.GetColor(period);
@@ -138,7 +138,7 @@ public class MainScript : MonoBehaviour
             if (previousPosition > currentPosition)
             {
                 isGoingUp = false;
-                periods.Enqueue(calculatePeriod());
+                periods.Enqueue(CalculatePeriod());
             }
         }
         else
@@ -146,12 +146,12 @@ public class MainScript : MonoBehaviour
             if (previousPosition < currentPosition)
             {
                 isGoingUp = true;
-                periods.Enqueue(calculatePeriod());
+                periods.Enqueue(CalculatePeriod());
             }
         }
     }
 
-    private float getAverage(float[] arr)
+    private float GetAverage(float[] arr)
     {
         float tot = 0;
         foreach(float value in arr)
@@ -161,7 +161,7 @@ public class MainScript : MonoBehaviour
         return tot / arr.Length;
     }
 
-    private float calculatePeriod()
+    private float CalculatePeriod()
     {
         float currentTime = Time.time;
         float period = currentTime - previousPeak;
@@ -169,23 +169,23 @@ public class MainScript : MonoBehaviour
         return period;
     }
 
-    public static void increaseScore()
+    public static void IncreaseScore()
     {
         score++;
         periods = new Queue<float>();
         periods.Enqueue(1);
     }
 
-    public static int getScore()
+    public static int GetScore()
     {
         return score;
     }
 
-    public void switchColorChanger()
+    public void SwitchColorChanger()
     {
         this.isChangingColor = !this.isChangingColor;
     }
-    public void switchColorChanger(Boolean force)
+    public void SwitchColorChanger(Boolean force)
     {
         this.isChangingColor = force;
     }

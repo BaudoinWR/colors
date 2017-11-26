@@ -17,7 +17,7 @@ public class ScrollScript : MonoBehaviour {
     // Use this for initialization
     void Start () {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        layer = getLayerSpead(spriteRenderer.sortingLayerName);
+        layer = GetLayerSpead(spriteRenderer.sortingLayerName);
         spawnsObjects = objects.Length > 0;
         if (spawnsObjects)
         {
@@ -28,19 +28,17 @@ public class ScrollScript : MonoBehaviour {
     private void GenerateObjects()
     {
         float size = spriteRenderer.size.x;
-        Debug.Log(size);
         for (float i = 0; i < size; i+= spread)
         {
             if (UnityEngine.Random.value > density)
             {
-                
                 GameObject newObj = Instantiate(objects[(int) UnityEngine.Random.Range(0, objects.Length)]);
                 newObj.transform.position = new Vector3(gameObject.transform.position.x + i, newObj.transform.position.y, newObj.transform.position.z);
             }
         }
     }
 
-    private float getLayerSpead(string sortingLayerName)
+    private float GetLayerSpead(string sortingLayerName)
     {
         switch(sortingLayerName)
         {
@@ -56,7 +54,7 @@ public class ScrollScript : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         Vector3 position = gameObject.transform.position;
-        gameObject.transform.position = new Vector3(position.x - layer/100, position.y, position.z);
+        gameObject.transform.Translate(-layer/100, 0, 0);
         if (keepAlive)
         {
             if (position.x + spriteRenderer.size.x < 30 && !hasSpawn)
