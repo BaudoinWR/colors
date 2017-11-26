@@ -45,7 +45,7 @@ public class FireFlyScript : MonoBehaviour {
     private void UpdateHalo()
     {
         
-        if (closeEnough(fireFlyColor, sourceRenderer.color, closeness))
+        if (CloseEnough(fireFlyColor, sourceRenderer.color, closeness))
         {
             halo.enabled = true;
             MainScript script = (MainScript)UnityEngine.Object.FindObjectOfType(typeof(MainScript));
@@ -89,7 +89,7 @@ public class FireFlyScript : MonoBehaviour {
         }
     }
 
-    private bool closeEnough(Color c1, Color c2, float nearness)
+    private bool CloseEnough(Color c1, Color c2, float nearness)
     {
         return Mathf.Abs(c1.r - c2.r) < nearness
             && Mathf.Abs(c1.g - c2.g) < nearness

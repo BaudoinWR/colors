@@ -9,12 +9,14 @@ public class PlayScript : MonoBehaviour {
     public Text textScore;
     static string saveFile = "colorSave";
     public int highScore = 0;
+    static DataScript data;
     private void Start()
     {
-        DataScript data = FileManagerScript.LoadData();
+        data = FileManagerScript.LoadData();
         textScore.text = "Score : " + MainScript.GetScore();
         textScore.text += "\nHighScore : " + data.topScore;
         textScore.text += "\nLightBugs : " + data.currentBugCount;
+        textScore.text += "\nTotal Travelled : " + String.Format("{0:.00}", data.totalDistanceTravelled)+"m";
     }
 
     public void OnClickPlay()
@@ -27,12 +29,12 @@ public class PlayScript : MonoBehaviour {
         Application.Quit();
     }
 
-    internal static void EndGame(int score)
+    internal static void EndGame(int score, float distanceTravelled)
     {
-        DataScript data = FileManagerScript.LoadData();
-        data.t += score;
+        data.totalBugCaught += score;
         data.currentBugCount += score;
-
+        data.totalDistanceTravelled += distanceTravelled;
+        data.tripsTaken++;
         int topScore = data.topScore;
 
         if (score > topScore)

@@ -6,6 +6,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 public class FileManagerScript {
+    private const string saveName = "Saves/colorsSave.binary";
+
     public static void WriteStringToFile(string str, string filename)
     {
 #if !WEB_BUILD
@@ -76,9 +78,9 @@ return null;
 
     public static void SaveData(DataScript data)
     {
-        String fileName = FileManagerScript.pathForDocumentsFile("Saves/save.binary");
+        String fileName = FileManagerScript.pathForDocumentsFile(saveName);
         if (!File.Exists(fileName))
-            Directory.CreateDirectory("Saves");
+            Directory.CreateDirectory(FileManagerScript.pathForDocumentsFile("Saves"));
 
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream saveFile = File.Create(fileName);
@@ -91,7 +93,7 @@ return null;
     public static DataScript LoadData()
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        String fileName = FileManagerScript.pathForDocumentsFile("Saves/save.binary");
+        String fileName = FileManagerScript.pathForDocumentsFile(saveName);
         if (!File.Exists(fileName))
         {
             return new DataScript();

@@ -6,13 +6,14 @@ public class DataScript
     private int TopScore;
     private int TotalBugCaught;
     private int CurrentBugCount;
-    private float totalDistanceTraveled;
-
+    private float TotalDistanceTravelled;
+    private float TripsTaken;
+    
     public DataScript()
     {
     }
 
-    public int t
+    public int totalBugCaught
     {
         get
         {
@@ -38,16 +39,16 @@ public class DataScript
         }
     }
 
-    public float TotalDistanceTraveled
+    public float totalDistanceTravelled
     {
         get
         {
-            return totalDistanceTraveled;
+            return TotalDistanceTravelled;
         }
 
         set
         {
-            totalDistanceTraveled = value;
+            TotalDistanceTravelled = value;
         }
     }
 
@@ -61,6 +62,19 @@ public class DataScript
         set
         {
             TopScore = value;
+        }
+    }
+
+    public float tripsTaken
+    {
+        get
+        {
+            return TripsTaken;
+        }
+
+        set
+        {
+            TripsTaken = value;
         }
     }
 }

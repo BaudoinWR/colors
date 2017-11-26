@@ -20,6 +20,9 @@ public class MainScript : MonoBehaviour
     float previousPeak = 0.0f;
     bool isGoingUp = true;
     int numberAveraged = 7;
+    float speed = 1.3f;
+
+    private float distance = 0.0f;
 
     static Queue<float> periods = new Queue<float>();
 
@@ -34,6 +37,8 @@ public class MainScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        distance += speed * Time.deltaTime;
+
         if (Application.platform == RuntimePlatform.Android)
         {
             UpdateWithTouchInteraction();
@@ -43,11 +48,12 @@ public class MainScript : MonoBehaviour
             UpdateWithMouseInteraction();
         }
         textScore.text = "Score : " + score;
+        textScore.text += "\nDistance : " + String.Format("{0:.00}", distance);
         time.value -= Time.deltaTime;
 
         if (time.value <= 0)
         {
-            PlayScript.EndGame(score);
+            PlayScript.EndGame(score, distance);
         }
     }
 
