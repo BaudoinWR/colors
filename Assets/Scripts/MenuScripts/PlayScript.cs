@@ -10,13 +10,14 @@ public class PlayScript : MonoBehaviour {
     static string saveFile = "colorSave";
     public int highScore = 0;
     static DataScript data;
+
     private void Start()
     {
         data = FileManagerScript.LoadData();
         textScore.text = "Score : " + MainScript.GetScore();
         textScore.text += "\nHighScore : " + data.topScore;
         textScore.text += "\nLightBugs : " + data.currentBugCount;
-        textScore.text += "\nTotal Travelled : " + String.Format("{0:.00}", data.totalDistanceTravelled)+"m";
+        textScore.text += "\nTotal Travelled : " + String.Format("{0:.00}", data.totalDistanceTravelled) + "m";
     }
 
     public void OnClickPlay()
@@ -44,4 +45,6 @@ public class PlayScript : MonoBehaviour {
         FileManagerScript.SaveData(data);
         SceneManager.LoadScene("Title");
     }
+
+
 }
