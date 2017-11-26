@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 public class FileManagerScript {
-    public static void writeStringToFile(string str, string filename)
+    public static void WriteStringToFile(string str, string filename)
     {
 #if !WEB_BUILD
         string path = pathForDocumentsFile(filename);
@@ -19,7 +21,7 @@ public class FileManagerScript {
     }
 
 
-    public static string readStringFromFile(string filename)//, int lineIndex )
+    public static string ReadStringFromFile(string filename)//, int lineIndex )
     {
 #if !WEB_BUILD
         string path = pathForDocumentsFile(filename);
@@ -70,5 +72,36 @@ return null;
             path = path.Substring(0, path.LastIndexOf('/'));
             return Path.Combine(path, filename);
         }
+    }
+
+    public static void SaveData(DataScript data)
+    {
+        String fileName = FileManagerScript.pathForDocumentsFile("Saves/save.binary");
+        if (!File.Exists(fileName))
+            Directory.CreateDirectory("Saves");
+
+        BinaryFormatter formatter = new BinaryFormatter();
+        FileStream saveFile = File.Create(fileName);
+
+        formatter.Serialize(saveFile, data);
+
+        saveFile.Close();
+    }
+
+    public static DataScript LoadData()
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        String fileName = FileManagerScript.pathForDocumentsFile("Saves/save.binary");
+        if (!File.Exists(fileName))
+        {
+            return new DataScript();
+        }
+        FileStream saveFile = File.Open(fileName, FileMode.Open);
+        
+        DataScript result = (DataScript)formatter.Deserialize(saveFile);
+
+        saveFile.Close();
+
+        return result;
     }
 }

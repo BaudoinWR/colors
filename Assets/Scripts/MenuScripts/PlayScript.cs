@@ -11,14 +11,10 @@ public class PlayScript : MonoBehaviour {
     public int highScore = 0;
     private void Start()
     {
-        Debug.Log("nsaveFile : " + FileManagerScript.pathForDocumentsFile("colorSave"));
-        String topScore = FileManagerScript.readStringFromFile(saveFile);
-        if (topScore != null)
-        {
-            highScore = Int32.Parse(topScore);
-        }
-        textScore.text = "HighScore : " + highScore;
-        textScore.text += "\nScore : " + MainScript.GetScore();
+        DataScript data = FileManagerScript.LoadData();
+        textScore.text = "Score : " + MainScript.GetScore();
+        textScore.text += "\nHighScore : " + data.topScore;
+        textScore.text += "\nLightBugs : " + data.currentBugCount;
     }
 
     public void OnClickPlay()
@@ -33,17 +29,17 @@ public class PlayScript : MonoBehaviour {
 
     internal static void EndGame(int score)
     {
-        String topScore = FileManagerScript.readStringFromFile(saveFile);
-        int highScore = 0;
-        if (topScore != null)
-        {
-            highScore = Int32.Parse(topScore);
-        }
+        DataScript data = FileManagerScript.LoadData();
+        data.t += score;
+        data.currentBugCount += score;
 
-        if (score > highScore)
+        int topScore = data.topScore;
+
+        if (score > topScore)
         {
-            FileManagerScript.writeStringToFile(""+score, saveFile);
+            data.topScore = score;
         }
+        FileManagerScript.SaveData(data);
         SceneManager.LoadScene("Title");
     }
 }
