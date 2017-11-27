@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class AdBannerScript : MonoBehaviour {
 
-    private BannerView bannerView;
+    private static BannerView bannerView;
     public void Start()
     {
         if (!AdsScript.adInitialized)

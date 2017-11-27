@@ -30,6 +30,7 @@ public class MainScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        // PlayScript.SetAspectRatio(Camera.allCameras);
         score = 0;
         periods.Enqueue(1);
     }
