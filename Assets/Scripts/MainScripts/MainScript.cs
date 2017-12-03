@@ -33,6 +33,12 @@ public class MainScript : MonoBehaviour
         // PlayScript.SetAspectRatio(Camera.allCameras);
         score = 0;
         periods.Enqueue(1);
+        if (PlayScript.data.batteryBoost)
+        {
+            time.maxValue += ShopScript.batteryBoost;
+            time.value = time.maxValue;
+            Debug.Log("Battery Boosted.");
+        }
     }
 
     // Update is called once per frame

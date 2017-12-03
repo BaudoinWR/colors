@@ -10,7 +10,7 @@ public class FireFlyScript : MonoBehaviour {
     Behaviour halo;
     public float closeness;
 
-    public float timeToLive;
+    private float timeToLive = PlayScript.data.instantLure ? 0.01f : 1.0f;
     private float timeValue = 4;
     public int direction;
 

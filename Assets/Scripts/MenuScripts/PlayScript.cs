@@ -9,7 +9,7 @@ public class PlayScript : MonoBehaviour {
     public Text textScore;
     static string saveFile = "colorSave";
     public int highScore = 0;
-    static DataScript data;
+    public static DataScript data;
 
     private void Start()
     {
@@ -63,6 +63,11 @@ public class PlayScript : MonoBehaviour {
         SceneManager.LoadScene("Main");
     }
 
+    public void OnClickShop()
+    {
+        SceneManager.LoadScene("Shop");
+    }
+
     public void OnClickQuit()
     {
         Application.Quit();
@@ -70,6 +75,7 @@ public class PlayScript : MonoBehaviour {
 
     internal static void EndGame(int score, float distanceTravelled)
     {
+        ShopScript.ResetTemporaryBoosts(data);
         data.totalBugCaught += score;
         data.currentBugCount += score;
         data.totalDistanceTravelled += distanceTravelled;

@@ -3,6 +3,8 @@
 [Serializable]
 public class DataScript
 {
+    private bool InstantLure;
+    private bool BatteryBoost;
     private int TopScore;
     private int TotalBugCaught;
     private int CurrentBugCount;
@@ -75,6 +77,32 @@ public class DataScript
         set
         {
             TripsTaken = value;
+        }
+    }
+
+    public bool batteryBoost
+    {
+        get
+        {
+            return BatteryBoost;
+        }
+
+        set
+        {
+            BatteryBoost = value;
+        }
+    }
+
+    public bool instantLure
+    {
+        get
+        {
+            return InstantLure;
+        }
+
+        set
+        {
+            InstantLure = value;
         }
     }
 }
