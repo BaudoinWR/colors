@@ -19,7 +19,7 @@ public class MainScript : MonoBehaviour
     float previousPosition = 0.0f;
     float previousPeak = 0.0f;
     bool isGoingUp = true;
-    int numberAveraged = 7;
+    int numberAveraged = 5;
     float speed = 1.3f;
 
     private float distance = 0.0f;
