@@ -3,19 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ModalScript : MonoBehaviour {
-    public GameObject oneBatteryBoostModal;
-    
     public void Start()
     {
-        oneBatteryBoostModal.SetActive(false);
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 
-    public void OnClickShowOneBatteryBoostModal()
+    public void OnClickShow()
     {
-        oneBatteryBoostModal.SetActive(true);
+        transform.GetChild(0).gameObject.SetActive(true);
     }
-    public void OnClickHideOneBatteryBoostModal()
+    public void OnClickHide()
     {
-        oneBatteryBoostModal.SetActive(false);
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 }

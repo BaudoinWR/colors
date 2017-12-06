@@ -5,6 +5,7 @@ public class DataScript
 {
     private bool InstantLure;
     private bool BatteryBoost;
+    private bool SpawnBoost;
     private int TopScore;
     private int TotalBugCaught;
     private int CurrentBugCount;
@@ -103,6 +104,19 @@ public class DataScript
         set
         {
             InstantLure = value;
+        }
+    }
+
+    public bool spawnBoost
+    {
+        get
+        {
+            return SpawnBoost;
+        }
+
+        set
+        {
+            SpawnBoost = value;
         }
     }
 }

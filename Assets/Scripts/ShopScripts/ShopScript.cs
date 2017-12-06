@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class ShopScript : MonoBehaviour {
     private const int batteryBoostCost = 10;
-    private const int instantLureCost = 100;
-    internal const float batteryBoost = 15;
+    private const int instantLureCost = 150;
+    private const int spawnBoostCost = 50;
 
     public void OnClickBatteryBoost()
     {
@@ -29,6 +29,16 @@ public class ShopScript : MonoBehaviour {
         FileManagerScript.SaveData(PlayScript.data);
     }
 
+    public void OnClickSpawnBoost()
+    {
+        if (PlayScript.data.currentBugCount >= spawnBoostCost && !PlayScript.data.spawnBoost)
+        {
+            PlayScript.data.spawnBoost = true;
+            PlayScript.data.currentBugCount -= spawnBoostCost;
+        }
+        FileManagerScript.SaveData(PlayScript.data);
+    }
+
     public void OnClickQuit()
     {
         SceneManager.LoadScene("Title");
@@ -37,5 +47,6 @@ public class ShopScript : MonoBehaviour {
     internal static void ResetTemporaryBoosts(DataScript data)
     {
         data.batteryBoost = false;
+        data.spawnBoost = false;
     }
 }

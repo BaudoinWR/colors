@@ -35,7 +35,7 @@ public class MainScript : MonoBehaviour
         periods.Enqueue(1);
         if (PlayScript.data.batteryBoost)
         {
-            time.maxValue += ShopScript.batteryBoost;
+            time.maxValue += 15;
             time.value = time.maxValue;
             Debug.Log("Battery Boosted.");
         }

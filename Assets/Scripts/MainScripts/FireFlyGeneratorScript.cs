@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FireFlyGeneratorScript : MonoBehaviour {
 
-    private int maxLights = 5;
+    private int maxLights = PlayScript.data.spawnBoost ? 7:5;
     float lastSpawn;
     float spawnRate = 100.0f;
     float height;
