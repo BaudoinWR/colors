@@ -94,8 +94,6 @@ public class MainScript : MonoBehaviour
 
     private void ShowFlashLight(bool touching, float x, float y)
     {
-        textDebug.text += "\nflashlight x : " + x;
-        textDebug.text += "\nflashlight y : " + y;
         if (touching && !isChangingColor)
         {
             if (flashLightHalo == null)
@@ -167,11 +165,15 @@ public class MainScript : MonoBehaviour
     private float GetAverage(float[] arr)
     {
         float tot = 0;
-        foreach(float value in arr)
+        if (arr.Length > 0)
         {
-            tot += value;
+            foreach(float value in arr)
+            {
+                tot += value;
+            }
+            return tot / arr.Length;
         }
-        return tot / arr.Length;
+        else return 1;
     }
 
     private float CalculatePeriod()
@@ -179,14 +181,23 @@ public class MainScript : MonoBehaviour
         float currentTime = Time.time;
         float period = currentTime - previousPeak;
         previousPeak = currentTime;
+        float average = GetAverage(periods.ToArray());
+        if (average > 2 * period || average < 0.5 * period)
+        {
+            ResetPeriods();
+        }
         return period;
     }
 
     public static void IncreaseScore()
     {
         score++;
-        periods = new Queue<float>();
-        periods.Enqueue(1);
+        ResetPeriods();
+    }
+
+    private static void ResetPeriods()
+    {
+        periods.Clear();
     }
 
     public static int GetScore()
