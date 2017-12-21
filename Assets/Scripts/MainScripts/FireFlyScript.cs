@@ -45,7 +45,7 @@ public class FireFlyScript : MonoBehaviour {
     private void UpdateHalo()
     {
         
-        if (CloseEnough(fireFlyColor, sourceRenderer.color, closeness))
+        if (CloseEnough(fireFlyColor, sourceRenderer.material.GetColor("_DesiredColor"), closeness))
         {
             halo.enabled = true;
             MainScript script = (MainScript)UnityEngine.Object.FindObjectOfType(typeof(MainScript));

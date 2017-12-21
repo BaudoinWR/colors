@@ -99,7 +99,7 @@ public class MainScript : MonoBehaviour
             if (flashLightHalo == null)
             {
                 flashLightHalo = Instantiate(flashLightHaloPrefab);
-                flashLightHalo.GetComponent<Light>().color = lightGenerator.GetComponent<SpriteRenderer>().color;
+                flashLightHalo.GetComponent<Light>().color = lightGenerator.GetComponent<SpriteRenderer>().material.GetColor("_DesiredColor");
             }
 
             flashLightHalo.transform.position = new Vector3(x, y);
@@ -130,7 +130,7 @@ public class MainScript : MonoBehaviour
             textDebug.text += "\nperiod : " + period;
 
             Color col = ColorScript.GetColor(period);
-            lightGenerator.GetComponent<SpriteRenderer>().color = col;
+            lightGenerator.GetComponent<SpriteRenderer>().material.SetColor("_DesiredColor", col);
             sin.GetComponent<SinWaveScript>().period = period;
             sin.GetComponent<SinWaveScript>().c2 = col;
             textDebug.text += "\ncolor : " + col;
